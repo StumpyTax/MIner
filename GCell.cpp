@@ -7,17 +7,21 @@ GCell::GCell()
 GCell::~GCell(){
 
 }
-GCell::GCell(bool mine,int number)
+GCell::GCell(bool mine,int x,int y,QWidget *parent)
 {
+    this->parent=parent;
+    this->setParent(parent);
     this->mine=mine;
-    this->number=number;
+    this->x=x;
+    this->y=y;
 }
 
 GCell& GCell::operator=(const GCell &other)
 {
      mine=other.mine;
      open=other.open;
-     number=other.number;
+     x=other.x;
+     y=other.y;
      return *this;
 }
 

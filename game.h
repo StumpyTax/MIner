@@ -6,7 +6,9 @@
 #include <QObject>
 #include <stdlib.h>
 #include <stdio.h>
+#include <QMainWindow>
 #include "GCell.h"
+#include "qthread.h"
 
 class Game : public QObject
 {
@@ -15,25 +17,25 @@ class Game : public QObject
 private:
     int width;
     int height;
-    QVector<GCell> *cells;
-    QWidget *parent;
+    QVector<GCell*> cells;
+    QWidget *menu;
+    QMainWindow *parent;
+    QGridLayout *layout;
 public:
     ~Game()
     {
-      delete cells;
       delete parent;
     }
     explicit Game(QObject *parent);
-    Game(QWidget *parent);
+    Game(QMainWindow *parent);
     int* resize(QWidget *parent);
-    void restart(QWidget *parent);
-    void open(int number,int bombsAround);
+    void restart();
+    void open(int x,int y,int bombsAround);
     void gameOver( GCell &cell);
-    QGridLayout *layout=new QGridLayout;
+    void gameStart();
+    void BombOrNot(int number);
+    int coordinates(int x,int y);
 
-
-public slots:
-   void BombOrNot(int number);
 };
 
 #endif // GAME_H
