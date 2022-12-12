@@ -1,6 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <QPushButton>
 #include <QGridLayout>
 #include <QObject>
 #include <stdlib.h>
@@ -14,12 +15,12 @@ class Game : public QObject
 private:
     int width;
     int height;
-    QVector<GCell> *bombs;
+    QVector<GCell> *cells;
     QWidget *parent;
 public:
     ~Game()
     {
-      delete bombs;
+      delete cells;
       delete parent;
     }
     explicit Game(QObject *parent);
@@ -32,7 +33,7 @@ public:
 
 
 public slots:
-   void BombOrNot(int x,int y);
+   void BombOrNot(int number);
 };
 
 #endif // GAME_H

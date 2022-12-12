@@ -6,16 +6,23 @@
 
 class GCell:public QPushButton
 {
-public:
+private:
     bool mine;
     bool open=false;
     int number;
+public:
+
     GCell();
-    GCell(const GCell&);
     GCell(bool mine,int number);
     GCell& operator=(const GCell& other);
    ~GCell();
-//  GCell(GCell const&);
+    GCell(const GCell  &obj){this->mine=obj.mine; this->number=obj.number; this->open=obj.open;};
+    bool getMine() const{return mine;}
+    void setMine(bool state){mine=state;}
+    bool getOpen(){return open;}
+    void setOpen(bool state){open=state;}
+    int getNumber(){return number;}
+    void setNumber(int i){number=i;}
 
 };
 

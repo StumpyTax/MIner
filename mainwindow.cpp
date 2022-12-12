@@ -1,13 +1,19 @@
 #include "mainwindow.h"
 #include "game.h"
 
+#include <QTimer>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     resize(600,700);
 
-    auto game=new Game(parent);
+    Game *game=new Game(this);
+    this->setLayout(game->layout);
+    auto timer=new QTimer(this);
+    connect(timer,  &QTimer::timeout,this,[game,timer]{
 
+    });
 }
 
 MainWindow::~MainWindow()

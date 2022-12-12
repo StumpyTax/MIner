@@ -1,5 +1,6 @@
 #include "game.h"
 
+
 Game::Game(QObject *parent)
     : QObject{parent}
 {
@@ -18,14 +19,14 @@ Game::Game(QWidget *parent)
     for(int i=0;i<height;i++)
         for(int j=0;j<width;j++)
         {
-            auto bomb=new GCell((bool)rand()%2,i+j*(this->layout->columnCount()));
-            this->bombs->append(*bomb);
-            this->layout->addWidget(bomb);
-            bomb->show();
+            auto cell=new GCell((bool)rand()%2,i+j*(this->layout->columnCount()));
+            this->cells->append(*cell);
+            this->layout->addWidget(cell);
+            connect(cell,,this,BombOrNot(cell->getNumber()));
+            cell->show();
         }
 
     this->layout->setGeometry( QRect(QPoint(30,50),QPoint(parent->width()-30,parent->height()-30)));
-    this->parent->setLayout(this->layout);
 }
 
 
@@ -69,7 +70,7 @@ void Game::restart(QWidget *parent)
         for(int j=0;j<width;j++)
         {
             auto bomb=new GCell((bool)rand()%2,i+j);
-            this->bombs->append(*bomb);
+            this->cells->append(*bomb);
             this->layout->addWidget(bomb);
             bomb->show();
 
@@ -82,36 +83,36 @@ void Game::open(int number, int bombsAround)
     for(int i=-1;i<1;i++)
         for(int j=-1;j<1;j++)
         {
-           if(number+j+i*(this->layout->columnCount())<0 || number+j+i*(this->layout->columnCount())>=bombs->length() || (i==0 && j==0))
+           if(number+j+i*(this->layout->columnCount())<0 || number+j+i*(this->layout->columnCount())>=cells->length() || (i==0 && j==0))
                 continue;
-            if(this->bombs->at(number+j+i*(this->layout->columnCount())).mine)
+            if(this->cells->at(number+j+i*(this->layout->columnCount())).getMine())
                 bombsAround++;
             else
                 open(number+j+i*(this->layout->columnCount()),0);
         }
 
-    auto data=bombs->data();
-    data[number].open=true;
+    auto data=cells->data();
+    data[number].setOpen(true);
 }
 
 void Game::gameOver(GCell &cell)
 {
-    auto *data=bombs->data();
-    for(auto i=0;i<bombs->length();i++)
+    auto *data=cells->data();
+    for(auto i=0;i<cells->length();i++)
     {
         data[i].setEnabled(false);
-        if(bombs->at(i).mine)
+        if(data[i].getMine())
             data[i].setIcon(QIcon());
     }
     cell.setIcon(QIcon());
 }
 
-void Game::BombOrNot(int x, int y)
+void Game::BombOrNot(int number)
 {
-    auto data=bombs->data();
-    if(this->bombs->at(x+y*(this->layout->columnCount())).mine){
-        this->gameOver(data[x+y*(this->layout->columnCount())]);
+    auto data=cells->data();
+    if(data[number].getMine()){
+        this->gameOver(data[number]);
     }
-    this->open(x+y*(this->layout->columnCount()),0);
+    this->open(number,0);
 
 }
