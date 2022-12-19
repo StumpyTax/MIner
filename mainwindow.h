@@ -1,7 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QObject>
 #include <QMainWindow>
+#include <QWidget>
 
 class MainWindow : public QMainWindow
 {

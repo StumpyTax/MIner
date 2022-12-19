@@ -31,11 +31,11 @@ public:
     int* resize(QWidget *parent);
     void restart();
     void open(int x,int y,int bombsAround);
-    void gameOver( GCell &cell);
+    void gameOver();
     void gameStart();
     void BombOrNot(int number);
     int coordinates(int x,int y);
-
+    void winOrNot();
 };
 
 #endif // GAME_H
